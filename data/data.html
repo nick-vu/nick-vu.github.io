@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang = "en-US">
+<head>
+	<meta charset = "utf-8">
+	<title>Data Visualization</title>
+	<link rel = "stylesheet" type = "text/css" href = "style.css">
+	<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i" rel="stylesheet">
+</head>
+<body>
+	<div class="txtbox">
+	<a id="explore">Data Visualization</a>
+	</div>
+	<div id="top"></div>
+	<div id="right"></div>
+	<img id ="topico" src="../Image/logo.png" alt="Logo">
+	<nav class="navbar">
+		<ul>
+			<li id="home" class="item" ><a href="../lab1.html">Home</a></li>
+			<li id="neu" class="item"><a href="#">Data Visualization</a></li>
+			<li id="vr" class="item"><a href="../VR/vr.html">VR</a></li>
+			<li id="news" class="item"><a href="#">News</a></li>
+			<li class="hrs"></li>
+		</ul>
+		<hr>
+	</nav>
+
+	<div id="intr">
+		<div style="margin:1px 1px;border:5px solid black; padding-bottom:20px;">
+			<h1><u>CSV Data Analysis:</u> Forest Fire in Motensinho Natural Park 2007</h1>
+			<hr style="height: 1px">
+			<h2>Rationale for Research Questions:</h2>
+			<p> During data obervation and collection, not all of the data points are meaningful and useful for some of our purposes. In this case study, the datas varied over a long period of time and over a wide range of locations that might not be related to our study on Motensinho Natural Park, in fact, more than 50 forest fire incidents are recorded outside of the park's perimeter. Therefore, the purpose of the following research questions are to pin point and potentially narrow down the range of meaningful data so that it can be more helpful to future studies. Also, with the recent forest fire incidents in California, it is imperative to understand forest fire behaviours and its different indicators.
+			<h2><u>Research Question 1:</u> What is the realationship between monthly forest fire incidents and the Average DC (Drought Code)?</h2>
+			<p>From the Government of Canada:<q cite="http://cwfis.cfs.nrcan.gc.ca/background/summary/fwi">The Drought Code (DC) is a numeric rating of the average moisture content of deep, compact organic layers. This code is a useful indicator of seasonal drought effects on forest fuels and the amount of smoldering in deep duff layers and large logs.</q></p>
+			<p> Since DC is a seasonal data, it is valid to plot its average over a monthly axis in order to observe its seasonal change.</p>
+			<h3><u>Function Development:</u></h3>
+			<p> Initiation:</p>
+			<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+	import pandas as pd
+	import matplotlib.pyplot as plt
+	ff = pd.read_csv('forestfires.csv')</pre>
+			<p> The variables are first created</p>
+			<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+	x = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    	y = [0]*12
+    	zSum = [0]*12
+    	z = [0]*12</pre>
+			<p> Variables in <em>x</em> correspond to the values given in the CSV data file, <em>y</em> is the counter for incidents per month, <em>z</em> is the average DC per month calculated by taking <em>zSum/y</em>.</p>
+			<p> For loop is used to get corresponding data values</p>
+			<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+	for i in range(len(ff.month)):
+        	y[x.index(ff.month[i].title())]+=1 ##Get month index and introduced 
+        	##into corresponding y
+        	zSum[x.index(ff.month[i].title())] += ff.DC[i] ##Get month index and increment by 
+        	##ff.DC[i] into corresponding zSum[i]
+    	for j in range(len(z)):
+        	z[j] = zSum[j]/y[j] #Get average for DC per month</pre>
+        	<p> Because all the month value are in lowercase, it is required to use .title(). x is style in such a way that it would look better in the Figure's labels.</p>
+        	<p> Plotting on matplotlib:</p>
+        	<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    fig, ax1 = plt.subplots() #Allow multiple plot on one figure
+    ax2 = ax1.twinx() #Twin X and two Y-axis
+    ax2.grid(b=False) #Increase visibility
+    ax1.bar(x,y) #Create bar chart of monthly Forest Fire incidents
+    ax1.set_axisbelow(True)
+    ax1.set_title("Monthly Forest Fire Incidents and Average DC index each Month")
+    ax1.set_ylabel('Forest Fire Incidents')
+    ax2.set_ylabel('Average DC index')
+    ax2.plot(z,alpha=0.5,color="red")
+    plt.show()</pre>
+    <h3> <u>Figure 1:</u></h3>
+    <img style ="margin:0 auto;display:block;width:90%" src="../Image/Figure_1.png" alt="Figure1">
+    <h3><u>Data Analysis:</u></h3>
+    <p>From the chart, it can be seened that incidents of Forest Fire and average DC monthly are closely related. Both remain low from January to May. From June, the values rise sharply and reach a peak around August and September months. After September, both value diminishes sharply at the end of the year. From the graph, it shows that DC value is fairly reliable to be used in analysing forest fire trend.</p>
+    <hr>
+    	<h2><u>Research Question 2:</u> What is the realationship between forest fire incidents and the location recoreded in the data?</h2>
+    	<p> From the data, and the relating map that was provided by the data collector. Some of the forest fire incidents are recorded outside of the park's perimeter. In other to see this in greater depth, a heatmap was constructed based on the provided map (remade based on old model) and data.</p>
+		
+		<h3><u>Function Development:</u></h3>
+			<p> Initiation:</p>
+			<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+	import pandas as pd
+	import matplotlib.pyplot as plt
+	import matplotlib.image as mpimg
+	import seaborn as sns
+	ff = pd.read_csv('forestfires.csv')
+	map_img = mpimg.imread('ff.png') ##To read the map's image </pre>
+			<p>Variables:</p>
+			<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+	x = list(range(1,10)) ##Create a list of x-coordinate from 1-9 
+	y = list(range(1,10)) ##Create a list of y-coordinate from 1-9
+	z = [ ([0] * 9) for row in range(9)] ##Create a 9*9 matrix map</pre>
+    	<p>Data Calculation:</p>
+    	<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    	for i in range(len(ff.month)):
+        	z[x.index(int(ff.X[i]))][y.index(int(ff.Y[i]))] += 1 ##increment of incidents for 
+        	##corresponding X and Y data coordinates</pre>
+        <p>Created a heatmap using matplotlib's extension seaborn</p>
+        <pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    ax = sns.heatmap(z,cbar=False,annot=True,cmap = matplotlib.cm.YlOrRd,alpha=0.5,zorder=2)
+    ax.set_xticklabels(x)
+    ax.set_yticklabels(y)
+    ax.set_title("Location Heatmap of Forest Fire incidents in Motensinho Park")
+    ax.set_ylabel('Y Coordinate')
+    ax.set_xlabel('X Coordinate')
+    ax.xaxis.set_label_position('top')
+    ax.xaxis.tick_top()
+    ax.imshow(map_img,aspect = ax.get_aspect(),
+                extent = ax.get_xlim() + ax.get_ylim(),
+                zorder = 1) #put the map under the heatmap
+    plt.show()</pre>
+    <h3> <u>Figure 2:</u></h3>
+    <img style ="margin:0 auto;display:block;width:90%" src="../Image/Figure_2.png" alt="Figure2">
+    <h3><u>Data Analysis:</u></h3>
+    <p>As can be seen from the map, the area around coordinate (4,4) has a high number of forest fires incidents within a year. This is also true for (5,6),(6,8) and (4,7). However, the latter data points are either on the border of the park or outside of the park. Therefore, these data are highly unreliable as they belong to the area where human have easy access  and thus they also involve human factor which is highly unpredictable. From the heatmap, those data can be excluded entirely in order to keep the validity of the study. Even so, data points around (4,4) also have human access through it (as can be seen with white roads on the background map), suggesting that some of the data values around this area is not very reliable.</p>
+    <hr>
+    <h2><u>Research Question 2:</u> What is the significance of FFMC (Fine Fuel Moisture Code), Temperature, DMC (Duff Moisture Code) and ISI (Initial Spread Index) to Forest Fire incidents?</h2>
+    <p>From the Government of Canada:<br>
+    	<q cite="http://cwfis.cfs.nrcan.gc.ca/background/summary/fwi">+The Fine Fuel Moisture Code (FFMC) is a numeric rating of the moisture content of litter and other cured fine fuels. This code is an indicator of the relative ease of ignition and the flammability of fine fuel. <br>
+    	+The Duff Moisture Code (DMC) is a numeric rating of the average moisture content of loosely compacted organic layers of moderate depth. This code gives an indication of fuel consumption in moderate duff layers and medium-size woody material. <br>
+    +The Initial Spread Index (ISI) is a numeric rating of the expected rate of fire spread. It combines the effects of wind and the FFMC on rate of spread without the influence of variable quantities of fuel.</q></p>
+    <p>From the data, many of forest fire incidators where recorded but it was unknown whether they are going to be useful for the study of forest fire. By creating multiple histogram subplots, it would be easier to compare and observe the trend of different forest fire indicators</p>
+    <h3><u>Function Development:</u></h3>
+			<p> Initiation:</p>
+			<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+	import pandas as pd
+	import matplotlib.pyplot as plt
+	ff = pd.read_csv('forestfires.csv')</pre>
+			<p>Variables:</p>
+			<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    x = [] ##FFMC
+    y = [] ##Temperature
+    z = [] ##DMC
+    j = [] ##ISI</pre>
+    		<p>Data Calculation, since it was showed that data outside the y-coordinate range of 2-5 is not valid:</p>
+    		<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    for i in range(len(ff.FFMC)):
+        if ff.Y[i] >=2 and ff.Y[i] &lt;= 5:
+            	x.append(ff.FFMC[i])
+            	y.append(ff.temp[i])
+            	z.append(ff.DMC[i])
+            	j.append(ff.ISI[i])</pre>
+            <p>Plotting with matplotlib</p>
+            <pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    fig, axs = plt.subplots(2, 2,sharey=True) ##Create two column and two row of subplots
+    fig.suptitle("Histogram of Incidents from DMC, Temperature, DMC and ISI")
+    fig.tight_layout()
+    fig.subplots_adjust(top=0.98)
+    axs[0][0].hist(x)
+    axs[0][0].set_ylabel('Number of Incidents')
+    axs[0][0].set_xlabel('Fine Fuel Moisture Code')
+    axs[0][1].hist(y)
+    axs[0][1].set_xlabel('Temperature(oC)')
+    axs[1][0].hist(z)
+    axs[1][0].set_ylabel('Number of Incidents')
+    axs[1][0].set_xlabel('Duff Moisture Code')
+    axs[1][1].hist(j)
+    axs[1][1].set_xlabel('Initial Spread Index')
+    plt.show()</pre>
+    <h3> <u>Figure 3:</u></h3>
+    <img style ="margin:0 auto;display:block;width:90%" src="../Image/Figure_3.png" alt="Figure3">
+    <h3><u>Data Analysis:</u></h3>
+    <p>From the four graphs, only FFMC show an increase in forest fire incidents with increase in value. However, for the other three, there is a highly chance of forest fire around their middle interval. Therefore, it is better to ultilize the FFMC value for prediction of forest fire incidents while others are much less reliable. This might stem from the fact that even though all the data points are within the Park's region, human's influenec also play a role in manipulating the data in such a way, as explained in the previous analysis.</p>
+	
+	<hr>
+	<h1><u>JSON Data Analysis:</u> Relationship between Sepal and Petal of Setosa, Virginica and Versicolor species of Iris genus</h1>
+	<h2>Rationale for Research Questions:</h2>
+	<p>Classification of plants have always been a headache for Botanists and Plant Biologists. As there are many types of plants that have very similar physical characteristics but inheriently different in gene and cannot reproduce with each other, therefore belongs to different species. It is imperative to find a solution that can efficiently classify plants based on statistical model that can enlarge minute differences between plant species, allowing faster and more accurate distinction between the species. Classification of plants can help to prevent risk relating to pharmaceutical misproduction, enhancing the consistency of drugs. </p>
+	<p><u>First Initiation:</u></p>
+	<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+	import json
+	import pandas as pd
+	my_file = open("iris.json", "r")
+	json_string = my_file.read()
+	##.read() returns your entire example.json file as one string
+	my_dict = json.loads(json_string) 	
+	columns = ["sl","sw","pl","pw","cl"] ##Sepal length, Sepal Width, Petal Length, Petal Width
+	rows = [list(row.values()) for row in my_dict["data"]] ##put all data into data rows
+	df = pd.DataFrame(rows,columns = columns) ##put column and rows into pandas dataFrame
+	my_file.close()
+	</pre>
+	<h2><u>Research Question 1:</u> What is the difference between the distribution of Sepal Length between 3 species of Iris?</h2>
+	<h3><u>Function Development:</u></h3>
+		<p> Initiation:</p>
+				<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    import matplotlib.pyplot as plt
+    import matplotlib.ticker as ticker</pre>
+		<p> Variables: </p>
+		<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    se = [] ##Setosa
+    ve = [] ##Versicolor
+    vi = [] ##Virginica</pre>
+    	<p>Data Calculation:</p>
+    	<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    for i in range(len(df.cl)):
+        if df.cl[i] == "Iris-setosa":
+            se.append(df.sl[i]) ##Get Sepal length data to Setosa
+        elif df.cl[i] == "Iris-versicolor":
+            ve.append(df.sl[i]) ##Get Sepal length data to Versicolor
+        elif df.cl[i] == "Iris-virginica":
+            vi.append(df.sl[i]) ##Get Sepal length data to Virginica</pre>
+         <p>Plotting with matplotlib</p>
+         <pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    fig, ax = plt.subplots(1,1)
+    ax.hist([se,ve,vi], alpha=0.5, label=['Iris-setosa','Iris-versicolor','Iris-virginica'])
+    ax.set_xlabel("Sepal Length(cm)")
+    ax.set_ylabel("Frequency")
+    ax.set_title("Histogram of Sepal length for three types of Iris")
+    plt.legend(loc='upper right')
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(1)) ##set yticker to 1
+    plt.show()</pre>
+    <h3><u>Figure 4:</u></h3>
+    <img style ="margin:0 auto;display:block;width:70%" src="../Image/Figure_4.png" alt="Figure4">
+    <h3><u>Data Analysis:</u></h3>
+    <p>From figure 4, it can easily be seen that the sepal length of Setosa is mostly distributed between the range of 4.3cm to 5.5cm, Versicolor is between 5.3cm to 6.8cm and Virginica is between 6.0cm to 7.8cm. So for identification, the sepal length can be a good indication for the species of plants with Setosa is always less than 6.0cm and Virginica is mostly larger than 6.0cm. For Versicolor is harder to indetify as its sepal length lie in between the distribution of Viriginica and Setosa.</p>
+    <hr>
+    <h2><u>Research Question 2:</u> What is the difference between the correlation between of Sepal Length and Petal Length of 3 species of Iris?</h2>
+    <h3><u>Function Development:</u></h3>
+    	<p> Initiation:</p>
+    	<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    import matplotlib.pyplot as plt
+    from scipy.stats import linregress
+    import numpy as np</pre>
+    	<p>Variables:</p>
+    	<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    viSl = [] ##Virginica Sepal Length
+    viPl = [] ##Virginica Petal Length
+    veSl = [] ##Versicolor Sepal Length
+    vePl = [] ##Versicolor Petal Length
+    seSl = [] ##Setosa Sepal Length
+    sePl = [] ##Setosa Petal Length</pre>
+    	<p>Data Calculation:</p>
+    	<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    for i in range(len(df.cl)):
+        if df.cl[i] == "Iris-virginica":
+            viSl.append(df.sl[i])
+            viPl.append(df.pl[i])
+        elif df.cl[i] == "Iris-versicolor":
+            veSl.append(df.sl[i])
+            vePl.append(df.pl[i])
+        elif df.cl[i] == "Iris-setosa":
+            seSl.append(df.sl[i])
+            sePl.append(df.pl[i])</pre>
+        <p>Scattor plot on matplotlib</p>
+        <pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    fig, axs = plt.subplots(1, 3,sharey=True) ##Create 1 row and 3 columns of subplots
+    fig.suptitle("Scatterplot of Sepal Length vs Petal Length for three types of Iris"
+    #Setosa
+    axs[0].scatter(seSl,sePl,color="#9370DB")
+    #Versicolor
+    axs[1].scatter(veSl,vePl,color ="#9e61b8" )
+    #Virginica
+    axs[2].scatter(viSl,viPl,color = "purple")</pre>
+        <p>Find and Plot Line of Regression Same process for axs[1] and axs[2]</p>
+        <pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    gradient, intercept, r_value, p_value, std_err = linregress(seSl,sePl)
+    x1=np.linspace(np.min(seSl),np.max(seSl),500)
+    y1=gradient*x1+intercept
+    axs[0].plot(x1,y1,'-r')
+    axs[0].legend(['r-square={}'.format(round((r_value**2),2)),'Setosa'])</pre>
+    <h3><u>Figure 5:</u></h3>
+    <img style ="margin:0 auto;display:block;width:70%" src="../Image/Figure_5.png" alt="Figure5">
+    <h3><u>Data Analysis:</u></h3>
+    <p>From three diagram, it can be seen that Virginica has the strongest correlation betweeen Sepal Length and Petal Length, following by Versicolor and then no correlation of Setosa. Therfore, for identification purposes, Virginica would have more proportional grow of Petal and Sepal length while for Setosa, the growth of Petal and Sepal is highly independent to each other. There is a medium correlation between Petal and Sepal Length for Versicolor so it can still be identify away from Setosa during growth. With this data, it can show that the species can either be Setosa or Virginica/Versicolor. </p>
+    <hr>
+    <h2><u>Research Question 3:</u> What are the general differences between of Sepal Length and Petal Length of 3 species of Iris?</h2>
+    <h3><u>Function Development:</u></h3>
+    	<p>Initiation:</p>
+    	<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    	from math import pi
+	import matplotlib.pyplot as plt</pre>
+		<p>Variables:</p>
+		<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+	seSum = [0]*5 #Sum sl, sw, pl, pw and total no. of Setosa
+    	veSum = [0]*5 #Sum sl, sw, pl, pw total no. of Versicolor
+    	viSum = [0]*5 #Sum sl, sw, pl, pw total no. of Virginica</pre>
+    	<p>Data Calculation:</p>
+    	<pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+	##Collection different Characteristics of the species
+    for i in range(len(df.cl)):
+	    if df.cl[i] == "Iris-setosa":
+	        seSum[0] += df.sl[i]
+	        seSum[1] += df.sw[i]
+	        seSum[2] += df.pl[i]
+	        seSum[3] += df.pw[i]
+	        seSum[4] += 1
+	    elif df.cl[i] == "Iris-versicolor":
+	        veSum[0] += df.sl[i]
+	        veSum[1] += df.sw[i]
+	        veSum[2] += df.pl[i]
+	        veSum[3] += df.pw[i]
+	        veSum[4] += 1
+	    elif df.cl[i] == "Iris-virginica":
+	        viSum[0] += df.sl[i]
+	        viSum[1] += df.sw[i]
+	        viSum[2] += df.pl[i]
+	        viSum[3] += df.pw[i]
+	        viSum[4] += 1
+    se = [seSum[i]/seSum[4] for i in range(len(seSum)-1)] #Average of sl, sw, pl, pw
+    ve = [veSum[i]/veSum[4] for i in range(len(veSum)-1)] #Average of sl, sw, pl, pw
+    vi = [viSum[i]/viSum[4] for i in range(len(viSum)-1)] #Average of sl, sw, pl, pw</pre>
+    <p>Plotting Star Chart with Matplotlib</p>
+    <pre class="prettyprint lang-py" style = "width:70%; margin:auto">
+    #Settng Background
+    angles = [n / float(4)*2*pi for n in range(4)] ##Get angle between catergories
+    angles += angles[:1] ##Connect last angle to first
+    ax = plt.subplot(111, polar=True) ##Indentify as Polar Plot
+    plt.xticks(angles[:-1], columns[:4]) ##Set Angle Ticks
+    ax.set_rlabel_position(0) ##Set X label
+    plt.yticks([2,4,6,8], ["2","4","6","8"], color="grey", size=7) ##Set Y-ticks
+    plt.ylim(0,8)
+
+    #Plot Se
+    values1 =se
+    values1 += values1[:1] ##Connecting first plot point
+    ax.plot(angles, values1, linewidth=1, linestyle='solid', label="Setosa")
+    ax.fill(angles, values1, 'b', alpha=0.1)
+
+    #Plot Ve
+    values2 = ve
+    values2 += values2[:1] ##Connecting first plot point
+    ax.plot(angles, values2, linewidth=1, linestyle='solid', label="Veriscolor")
+    ax.fill(angles, values2, 'b', alpha=0.1)
+
+    #Plot Vi
+    values3 = vi
+    values3 += values3[:1] ##Connecting first plot point
+    ax.plot(angles, values3, linewidth=1, linestyle='solid', label="Virginia")
+    ax.fill(angles, values3, 'b', alpha=0.1)
+
+    # Add legend and title
+    plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
+    ax.set_title("Star Chart of Three types of Iris in cm")
+    plt.show()</pre>
+    <h3><u>Figure 6:</u></h3>
+    <img style ="margin:0 auto;display:block;width:70%" src="../Image/Figure_6.png" alt="Figure6">
+    <h3><u>Data Analysis:</u></h3>
+    <p>From the star chart, there are multiple characteristics that are different between different species. For Setosa, it was showed that the sepal dimension is greatly larger than the petal dimension (with both average Sepal Lenght and Sepal Width larger than Petal Length and Petal Width). For Both Veriscolor and Virginica, the Sepal length and Petal length are similar to each other, it is the same for Sepal Width and Petal width also. So generally, Versicolor and Virginica have larger petals than Setosa's.</p>
+
+</div>
+	</div>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+</body>
+</html>
