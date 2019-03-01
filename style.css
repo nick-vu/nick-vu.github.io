@@ -155,7 +155,7 @@ nav>hr{
    margin:50px auto;
    border:5px solid black;
   }
-p,pre {
+p {
 	font-family: 'Simplifica', cursive;
 	text-indent: 50px;
 	margin-top: 3px;
