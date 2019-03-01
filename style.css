@@ -151,7 +151,7 @@ nav>hr{
 
 #intr {
    background-color:white;
-   width:50%;
+   width:70%;
    margin:50px auto;
    border:5px solid black;
   }
@@ -163,10 +163,7 @@ p,pre {
 	margin-left:8px;
 	margin-right:8px;
 	font-size: 30px;
-}
-p::first-letter {
-	font-size: 300%
-
+	font-weight: 600;
 }
 
 
