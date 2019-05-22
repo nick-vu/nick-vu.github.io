@@ -67,6 +67,7 @@ button:focus {outline:0;}
     margin: 0 auto;
     margin-top:100px;
     display: block;
+    margin-left:50%;
 }
 #icon {
 	width: 4%;
@@ -80,6 +81,20 @@ button:focus {outline:0;}
     float: right;
     transform: rotate(-43deg);
     opacity: 0;
+}
+#prof {
+	margin:2.5% 3.5%;
+	display:inline-block; 
+	width:30%; 
+	height:auto;
+	margin-right:1%; 
+}
+#title {
+	width:64%;
+	height:auto;
+	display: inline-block; 
+	vertical-align: top; 
+	text-align: center; 
 }
 
 .fade-in {
@@ -114,6 +129,7 @@ nav ul .item{
 	font-size:30px;
 	text-transform: uppercase;
 	margin-bottom:0;
+	font-size:3em;
 }
 nav ul li a {
 	text-decoration: none;
@@ -121,25 +137,25 @@ nav ul li a {
 }
 
 #neu:hover~.hrs {
-	margin-left:23.1%;
-	width:380px;
+	margin-left:24%;
+	width:220px;
 }
 #vr:hover~.hrs {
-	margin-left:71.0%;
-	width:59.5px;
+	margin-left:54.5%;
+	width:205px;
 }
 #news:hover~.hrs {
-	margin-left:83%;
-	width:120px;
+	margin-left:84.2%;
+	width:70px;
 }
 
 .hrs{
   list-style: none;
   clear:both;
-  width: 120px;
+  width: 95px;
   margin-top:0;
   margin-bottom:0;
-  margin-left: 4.0%;
+  margin-left: 6.95%;
   border: 2px solid #FF5A5F;
   transition: .3s ease-in-out;
 }
