@@ -47,8 +47,8 @@ body {
 
 #landingtext {
 	width:40%;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 30%;
+	margin-right: 30%;
 	margin-top:17%;
 	font-family: 'Simplifica', cursive;
 	font-size:5em;
@@ -58,6 +58,7 @@ body {
   	text-decoration: none;
   	text-align: center;
   	color:black;
+  	position: fixed;
 }
 button:focus {outline:0;}
 
@@ -87,14 +88,20 @@ button:focus {outline:0;}
 	display:inline-block; 
 	width:30%; 
 	height:auto;
-	margin-right:1%; 
+	margin-right:1%;
+
+}
+h2 {
+	font-family: 'Montserrat', sans-serif;
+	font-weight:700; 
 }
 #title {
 	width:64%;
 	height:auto;
 	display: inline-block; 
-	vertical-align: top; 
-	text-align: center; 
+	vertical-align: center; 
+	text-align: middle; 
+	
 }
 
 .fade-in {
@@ -134,19 +141,26 @@ nav ul .item{
 nav ul li a {
 	text-decoration: none;
 	color:black;
+	font-family: 'Simplifica', cursive;
+}
+
+nav ul li a:hover {
+	text-decoration: none;
+	color:black;
 }
 
 #neu:hover~.hrs {
-	margin-left:24%;
+	margin-left:22.7%;
 	width:220px;
 }
 #vr:hover~.hrs {
-	margin-left:54.5%;
+	margin-left:55.7%;
 	width:205px;
 }
 #news:hover~.hrs {
-	margin-left:84.2%;
-	width:70px;
+
+	margin-left:86.4%;
+	width:75px;
 }
 
 .hrs{
@@ -155,7 +169,7 @@ nav ul li a {
   width: 95px;
   margin-top:0;
   margin-bottom:0;
-  margin-left: 6.95%;
+  margin-left: 4.2%;
   border: 2px solid #FF5A5F;
   transition: .3s ease-in-out;
 }
@@ -170,16 +184,16 @@ nav>hr{
    width:70%;
    margin:50px auto;
    border:5px solid black;
+   z-index: 1000;
   }
 p {
-	font-family: 'Simplifica', cursive;
-	text-indent: 50px;
+	font-family: 'Montserrat', sans-serif;
 	margin-top: 3px;
 	margin-bottom: 3px;
 	margin-left:8px;
 	margin-right:8px;
-	font-size: 30px;
-	font-weight: 600;
+	font-size: 22px;
+	font-weight: 500;
 }
 
 
