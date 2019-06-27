@@ -1,5 +1,42 @@
+Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@nick-vu 
+0
+0 0 nick-vu/nick-vu.github.io
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Security  Insights  Settings
+nick-vu.github.io/style.css
+@nickvu nickvu Done
+a3666ea 12 days ago
+208 lines (182 sloc)  3.14 KB
+    
 html {
-	scroll-behavior: smooth;
+  font-size: 1rem;
+  scroll-behavior: smooth;
+}
+
+@include media-breakpoint-up(sm) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  html {
+    font-size: 1.4rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  html {
+    font-size: 1.6rem;
+  }
 }
 
 @font-face {
@@ -38,7 +75,7 @@ body {
    display: grid;
    height: 100vh;
    background-image: url("Image/Landing.jpeg");
-   background-size: 80%;
+   background-size: cover;
    background-position: center;
    display: flex;
    flex-direction: column;
@@ -46,12 +83,12 @@ body {
   }
 
 #landingtext {
-	width:40%;
-	margin-left: 30%;
-	margin-right: 30%;
+	width:50%;
+	margin-left: 25%;
+	margin-right: 25%;
 	margin-top:17%;
 	font-family: 'Simplifica', cursive;
-	font-size:5em;
+	font-size:5rem;
 	font-weight: bold;
 	display:block;
 	background-color: transparent;
@@ -122,7 +159,6 @@ nav{
 }
 nav ul{
 	background-color:white;
-	width:60%;
 	margin:0 auto;
 	text-align:center;
 }
@@ -133,10 +169,9 @@ nav ul .item{
 	padding-left: 30px;
 	padding-right: 30px;
 	text-decoration: none;
-	font-size:30px;
 	text-transform: uppercase;
 	margin-bottom:0;
-	font-size:3em;
+	font-size:3rem;
 }
 nav ul li a {
 	text-decoration: none;
@@ -146,33 +181,11 @@ nav ul li a {
 
 nav ul li a:hover {
 	text-decoration: none;
-	color:black;
+	color:#FF5A5F;
+	border-bottom: 2px solid #FF5A5F;
 }
 
-#neu:hover~.hrs {
-	margin-left:22.7%;
-	width:220px;
-}
-#vr:hover~.hrs {
-	margin-left:55.7%;
-	width:205px;
-}
-#news:hover~.hrs {
 
-	margin-left:86.4%;
-	width:75px;
-}
-
-.hrs{
-  list-style: none;
-  clear:both;
-  width: 95px;
-  margin-top:0;
-  margin-bottom:0;
-  margin-left: 4.2%;
-  border: 2px solid #FF5A5F;
-  transition: .3s ease-in-out;
-}
 nav>hr{
 	width:60%;
 	height: 1px;
@@ -197,11 +210,66 @@ p {
 }
 
 
-a:active {
+.active {
 	color:#FF5A5F;
+	border-bottom: 2px solid #FF5A5F;
 }
 
 
 
 
+/* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  right:0;
+  background-color: white; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
 
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 3rem;
+  color: black;
+  display: block;
+  transition: 0.3s;
+  text-align: center;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav #active {
+	color:#FF5A5F;
+}
+.sidenav a:hover{
+	text-decoration:none;
+	color:#FF5A5F;
+}
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
