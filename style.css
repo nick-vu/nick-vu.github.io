@@ -67,6 +67,9 @@ body {
 	margin:0;
 	font-family: 'Simplifica', cursive;
 }
+body, html {
+  height: 100%;
+}
 
 #top {
 	background-image: url("Image/Landing.jpeg");
@@ -92,7 +95,7 @@ body {
  
 .imgbox {
    display: grid;
-   height: 100vh;
+   height: 100%;
    background-image: url("Image/Landing.jpeg");
    background-size: cover;
    background-position: center;
