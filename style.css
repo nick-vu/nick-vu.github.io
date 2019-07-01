@@ -15,29 +15,48 @@ nick-vu.github.io/style.css
 @nickvu nickvu Done
 a3666ea 12 days ago
 208 lines (182 sloc)  3.14 KB
-    
-html {
-  font-size: 1rem;
-  scroll-behavior: smooth;
+
+
+	html{
+		font-size:1rem;
+
+	}
+	.covertext
+	{
+		font-size:2.5rem;
+	}
+	.intro{
+		font-size:1.25rem;
+	}	
+
+@media (min-width: 767.98px) { 
+	html {
+	    font-size: 1.2rem;
+	    scroll-behavior: smooth;
+	  }
+	 .covertext {
+		font-size:3rem;
+	}
+	.intro{
+  	font-size: 1.5rem;
+  	}	
 }
 
-@include media-breakpoint-up(sm) {
-  html {
-    font-size: 1.2rem;
-  }
+
+@media (min-width: 991.98px) { 
+	html {
+	    font-size: 1.6rem;
+	  }
 }
 
-@include media-breakpoint-up(md) {
-  html {
-    font-size: 1.4rem;
-  }
+@media (min-width: 1100px) {
+	html {
+    	font-size: 1.8rem;
+  	}
+
 }
 
-@include media-breakpoint-up(lg) {
-  html {
-    font-size: 1.6rem;
-  }
-}
+
 
 @font-face {
     font-family: "Simplifica";
@@ -83,12 +102,7 @@ body {
   }
 
 #landingtext {
-	width:50%;
-	margin-left: 25%;
-	margin-right: 25%;
-	margin-top:17%;
 	font-family: 'Simplifica', cursive;
-	font-size:5rem;
 	font-weight: bold;
 	display:block;
 	background-color: transparent;
