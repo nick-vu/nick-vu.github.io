@@ -98,7 +98,7 @@ body, html {
    height: 100%;
    background-image: url("Image/Landing.jpeg");
    background-size: cover;
-   background-position: center;
+   background-position: bottom;
    display: flex;
    flex-direction: column;
    background-attachment: fixed;
